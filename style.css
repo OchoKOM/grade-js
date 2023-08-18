@@ -4,8 +4,24 @@
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
 }
+:root{
+    --body-bg: #e1eff5;
+    --shadow-color: #00000083;
+    --txt-color: #000;
+    --inverted-txt: #fff;
+    --btn-bg: #00586d;
+}
+@media (prefers-color-scheme: dark){
+    :root{
+        --body-bg: #0a1527;
+        --shadow-color: #ffffff65;
+        --txt-color: #fff;
+        --inverted-txt: #000;
+        --btn-bg: #94dcee;
+    }
+}
 body {
-    background: #e1eff5;
+    background: var(--body-bg);
     position: relative;
 }
 .container{
@@ -19,8 +35,9 @@ body {
     height: 100%;
     min-height: 200px;
     max-height: 450px;
-    box-shadow:  0px 5px 25px 10px #00000083;
+    box-shadow:  0px 5px 25px 10px var(--shadow-color);
     border-radius: 10px;
+    color: var(--txt-color);
 }
 img{
     position: relative;
@@ -34,10 +51,11 @@ img{
 #image_input{
     position: absolute;
     border-radius: 30px;
-    background: #e1eff5;
-    outline: 5px solid #fff;
+    background: var(--body-bg);
+    outline: 5px solid var(--inverted-txt);
+    box-shadow: 0px 2px 12px 5px var(--shadow-color);
     padding: 0;
-    color: #000;
+    color: var(--txt-color);
     font-size: 1.1em;
     top: -15px;
     left: 50%;
@@ -47,9 +65,9 @@ img{
     border-radius: 30px;
     border: none;
     outline: none;
-    background: #00586d;
+    background: var(--btn-bg);
     padding: 7px;
-    color: #fff;
+    color: var(--inverted-txt);
     cursor: pointer;
 }
 .color{
