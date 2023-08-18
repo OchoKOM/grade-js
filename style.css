@@ -58,8 +58,9 @@ img{
     color: var(--txt-color);
     font-size: 1.1em;
     top: -15px;
-    left: 40%;
+    left: 45%;
     translate: -50%;
+    width: calc(100% - 70px);
 }
 #image_input::-webkit-file-upload-button{
     border-radius: 30px;
