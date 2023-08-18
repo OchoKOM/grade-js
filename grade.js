@@ -1,22 +1,36 @@
 const imgSelector = 'img',
-container = document.querySelector('.container'),
-color = document.querySelector('.color'),
-input = document.getElementById('image_input'),
-prefixes = ['webkit'];
+    container = document.querySelector('.container'),
+    color = document.querySelector('.color'),
+    colorsListContainer = document.querySelector('.colors'),
+    colorsListV = document.querySelector('.colorsList'),
+    input = document.getElementById('image_input'),
+    menu_btn = document.querySelector('.menu'),
+    close_btn = document.querySelector('.close'),
+    prefixes = ['webkit'];
 
+menu_btn.onclick = function () {
+    colorsListContainer.classList.add('active');
+}
+close_btn.onclick = function () {
+    colorsListContainer.classList.remove('active');
+}
 input.onchange = function () {
-    const source =  URL.createObjectURL(input.files[0]);
+    const source = URL.createObjectURL(input.files[0]);
     let newImage = document.createElement('img');
     newImage.src = source;
     newImage.width = 400;
-    if (container.querySelector('img')) {
+    if (colorsListV.innerHTML != '' && container.querySelector('img') !== null) {
+        colorsListV.innerHTML = '';
         container.querySelector('img').remove();
+        container.removeAttribute('style')
+    }else{
+        colorsListV.insertAdjacentHTML('beforeend', '<span>Aucune couleur</span>')
     }
     try {
         container.appendChild(newImage);
         grade(container, "img");
     } catch (e) {
-        color.innerHTML = "Oops une erreur s'est produite pendant la création du gradient merci de réessayer"        
+        color.innerHTML = "Oops une erreur s'est produite pendant la création du gradient merci de réessayer"
     }
 }
 
@@ -126,6 +140,27 @@ function grade(container, img_selector, callback) {
             .sort((a, b) => a.occurs - b.occurs)
             .reverse()
             .slice(0, 10);
+            
+        // On crée un objet ou un tableau qui contient les couleurs
+        let colors = [];
+        for (let i = 0; i < occurs.length; i++) {
+            // On ajoute chaque couleur avec son nom et sa fréquence
+            colors.push({
+                name: `rgb(${occurs[i].rgba.slice(0, 3).join(",")})`,
+                frequency: occurs[i].occurs,
+            });
+        }
+        obj.colorsList = colors;
+        for (let i = 0; i < obj.colorsList.length; i++) {
+            const color = obj.colorsList[i];
+            const colorElement = `
+            <div class="rgb">
+                <span>couleur ${i + 1 }</span>
+                <input type="text" value="${color.name}" style="--input: ${color.name};">
+            </div>
+            `
+            colorsListV.insertAdjacentHTML('beforeend', colorElement);
+        }
         return occurs.sort((a, b) => a.brightness - b.brightness).reverse();
     }
 
@@ -200,4 +235,6 @@ function grade(container, img_selector, callback) {
         renderGradient(obj);
     }
 
+    // On retourne l'objet
+    return obj;
 }
